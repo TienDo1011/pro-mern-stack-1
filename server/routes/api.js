@@ -1,19 +1,16 @@
 import express from 'express';
-import session from 'express-session';
-import bodyParser from 'body-parser';
-import { ObjectId } from 'mongodb';
-import Issue from './issue.js';
-import renderedPageRouter from './renderedPageRouter.jsx';
+const router = express.Router(); // eslint-disable-line new-cap
+// import { dict, suggestion } from '../controllers/main';
 
-const app = express();
-app.use(express.static('static'));
-app.use(bodyParser.json());
+/* GET home page. */
+// router.get("/", (req, res, next) => {
+//   res.render("index", { title: "Tieng anh thay Tien" });
+// });
 
-let db;
+// router.get("/dict", dict);
+// router.get("/q", suggestion);
 
-app.use(session({ secret: 'h7e3f5s6', resave: false, saveUninitialized: true }));
-
-app.all('/api/*', (req, res, next) => {
+router.all('/*', (req, res, next) => {
   if (req.method === 'DELETE' || req.method === 'POST' || req.method === 'PUT') {
     if (!req.session || !req.session.user) {
       res.status(403).send({
@@ -27,7 +24,7 @@ app.all('/api/*', (req, res, next) => {
   }
 });
 
-app.get('/api/issues', (req, res) => {
+router.get('/issues', (req, res) => {
   const filter = {};
   if (req.query.status) filter.status = req.query.status;
   if (req.query.effort_lte || req.query.effort_gte) filter.effort = {};
@@ -76,7 +73,7 @@ app.get('/api/issues', (req, res) => {
   }
 });
 
-app.post('/api/issues', (req, res) => {
+router.post('/issues', (req, res) => {
   const newIssue = req.body;
   newIssue.created = new Date();
   if (!newIssue.status) {
@@ -102,7 +99,7 @@ app.post('/api/issues', (req, res) => {
   });
 });
 
-app.get('/api/issues/:id', (req, res) => {
+router.get('/issues/:id', (req, res) => {
   let issueId;
   try {
     issueId = new ObjectId(req.params.id);
@@ -123,7 +120,7 @@ app.get('/api/issues/:id', (req, res) => {
   });
 });
 
-app.put('/api/issues/:id', (req, res) => {
+router.put('/issues/:id', (req, res) => {
   let issueId;
   try {
     issueId = new ObjectId(req.params.id);
@@ -154,7 +151,7 @@ app.put('/api/issues/:id', (req, res) => {
   });
 });
 
-app.delete('/api/issues/:id', (req, res) => {
+router.delete('/issues/:id', (req, res) => {
   let issueId;
   try {
     issueId = new ObjectId(req.params.id);
@@ -173,7 +170,7 @@ app.delete('/api/issues/:id', (req, res) => {
   });
 });
 
-app.get('/api/users/me', (req, res) => {
+router.get('/users/me', (req, res) => {
   if (req.session && req.session.user) {
     res.json(req.session.user);
   } else {
@@ -181,36 +178,4 @@ app.get('/api/users/me', (req, res) => {
   }
 });
 
-app.post('/signin', (req, res) => {
-  if (!req.body.id_token) {
-    res.status(400).send({ code: 400, message: 'Missing Token.' });
-    return;
-  }
-  fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.body.id_token}`)
-  .then(response => {
-    if (!response.ok) response.json().then(error => Promise.reject(error));
-    response.json().then(data => {
-      req.session.user = {
-        signedIn: true, name: data.given_name,
-      };
-      res.json(req.session.user);
-    });
-  })
-  .catch(error => {
-    console.log(error);
-    res.status(500).json({ message: `Internal Server Error: ${error}` });
-  });
-});
-
-app.post('/signout', (req, res) => {
-  if (req.session) req.session.destroy();
-  res.json({ status: 'ok' });
-});
-
-app.use('/', renderedPageRouter);
-
-function setDb(newDb) {
-  db = newDb;
-}
-
-export { app, setDb };
+export default router;

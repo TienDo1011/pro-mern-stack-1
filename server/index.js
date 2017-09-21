@@ -1,31 +1,52 @@
-import SourceMapSupport from 'source-map-support';
-SourceMapSupport.install();
-import 'babel-polyfill';
-import http from 'http';
+import express from 'express';
+// import session from 'express-session';
+import bodyParser from 'body-parser';
+// import { ObjectId } from 'mongodb';
+// import Issue from './issue.js';
+// import renderedPageRouter from './renderedPageRouter.jsx';
 
-import { MongoClient } from 'mongodb';
+import './models/db';
+import index from './routes/index';
+import api from './routes/api';
 
-let appModule = require('./server.js');
-let db;
-let server;
+const app = express();
+app.use(express.static('static'));
+app.use(bodyParser.json());
 
-MongoClient.connect('mongodb://localhost/issuetracker').then(connection => {
-  db = connection;
-  server = http.createServer();
-  appModule.setDb(db);
-  server.on('request', appModule.app);
-  server.listen(3000, () => {
-    console.log('App started on port 3000');
-  });
-}).catch(error => {
-  console.log('ERROR:', error);
+
+app.use('/', index);
+app.use('/api', api);
+// app.use(session({ secret: 'h7e3f5s6', resave: false, saveUninitialized: true }));
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
-if (module.hot) {
-  module.hot.accept('./server.js', () => {
-    server.removeListener('request', appModule.app);
-    appModule = require('./server.js');     // eslint-disable-line
-    appModule.setDb(db);
-    server.on('request', appModule.app);
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use((err, req, res) => {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err,
+    });
   });
 }
+
+// production error handler
+// no stacktraces leaked to user
+app.use((err, req, res) => {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {},
+  });
+});
+
+// app.use('/', renderedPageRouter);
