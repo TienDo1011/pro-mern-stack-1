@@ -1,14 +1,5 @@
 import express from 'express';
 const router = express.Router(); // eslint-disable-line new-cap
-// import { dict, suggestion } from '../controllers/main';
-
-/* GET home page. */
-// router.get("/", (req, res, next) => {
-//   res.render("index", { title: "Tieng anh thay Tien" });
-// });
-
-// router.get("/dict", dict);
-// router.get("/q", suggestion);
 
 router.post('/signin', (req, res) => {
   if (!req.body.id_token) {

@@ -1,8 +1,7 @@
+import http from 'http';
 import express from 'express';
-// import session from 'express-session';
+import session from 'express-session';
 import bodyParser from 'body-parser';
-// import { ObjectId } from 'mongodb';
-// import Issue from './issue.js';
 // import renderedPageRouter from './renderedPageRouter.jsx';
 
 import './models/db';
@@ -12,11 +11,10 @@ import api from './routes/api';
 const app = express();
 app.use(express.static('static'));
 app.use(bodyParser.json());
-
+app.use(session({ secret: 'h7e3f5s6', resave: false, saveUninitialized: true }));
 
 app.use('/', index);
 app.use('/api', api);
-// app.use(session({ secret: 'h7e3f5s6', resave: false, saveUninitialized: true }));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -50,3 +48,7 @@ app.use((err, req, res) => {
 });
 
 // app.use('/', renderedPageRouter);
+const server = http.createServer(app);
+server.listen(3001, () => {
+  console.log('App started on port 3001');
+});

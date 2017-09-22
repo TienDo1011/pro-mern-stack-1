@@ -29,11 +29,11 @@ module.exports = {
   devServer: {
     port: 8000,
     contentBase: 'static',
-    proxy: {
-      '**': {
-        target: 'http://localhost:3000',
-      },
-    },
+    // proxy: {
+    //   '**': {
+    //     target: 'http://localhost:3001',
+    //   },
+    // },
     historyApiFallback: true,
   },
   devtool: 'source-map',
