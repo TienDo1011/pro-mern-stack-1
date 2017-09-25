@@ -82,8 +82,9 @@ class IssueList extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    const data = context.initialState.IssueList ? context.initialState.IssueList
-      : { metadata: { totalCount: 0 }, records: [] };
+    // const data = context.initialState.IssueList ? context.initialState.IssueList
+    //   : { metadata: { totalCount: 0 }, records: [] };
+    const data = { metadata: { totalCount: 0 }, records: [] };
     const issues = data.records;
     issues.forEach(issue => {
       issue.created = new Date(issue.created);

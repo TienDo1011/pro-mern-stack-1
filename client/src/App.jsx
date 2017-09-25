@@ -14,9 +14,9 @@ export default class App extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    const user = context.initialState.App ? context.initialState.App : {};
+    // const user = context.initialState.App ? context.initialState.App : {};
     this.state = {
-      user,
+      user: {},
     };
     this.onSignin = this.onSignin.bind(this);
     this.onSignout = this.onSignout.bind(this);
