@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import http from 'http';
 import express from 'express';
 import session from 'express-session';

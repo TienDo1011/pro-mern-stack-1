@@ -18,7 +18,7 @@ module.exports = {
         test: /\.jsx$/,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2015-node4'],
+          presets: ['react', 'env'],
         },
       },
       {
@@ -26,13 +26,14 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015-node4'],
+          presets: ['env'],
         },
       },
     ],
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    'transform-regenerator',
   ],
   devtool: 'source-map',
 };
