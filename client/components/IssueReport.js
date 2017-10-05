@@ -74,7 +74,7 @@ class IssueReport extends React.Component {
     return (
       <div>
         <IssueFilter setFilter={this.setFilter} initFilter={this.props.location.search} />
-        <Table bordered condensed hover responsive>
+        <Table bordered hover responsive>
           <thead>
             <tr>
               <th></th>
