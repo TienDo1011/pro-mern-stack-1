@@ -1,7 +1,8 @@
 import React from 'react';
-import { withRouter } from 'react-router';
-import { NavItem, Glyphicon, Modal, Form, FormGroup, FormControl, ControlLabel,
-  Button, ButtonToolbar } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { NavItem, Modal, Form, FormGroup, Input, Label,
+  Button, ButtonToolbar } from 'reactstrap';
 
 class IssueAddNavItem extends React.Component {
   constructor(props) {
@@ -9,20 +10,17 @@ class IssueAddNavItem extends React.Component {
     this.state = {
       showing: false,
     };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.submit = this.submit.bind(this);
   }
 
-  showModal() {
+  showModal = () => {
     this.setState({ showing: true });
   }
 
-  hideModal() {
+  hideModal = () => {
     this.setState({ showing: false });
   }
 
-  submit(e) {
+  submit = (e) => {
     e.preventDefault();
     this.hideModal();
     const form = document.forms.issueAdd;
@@ -51,7 +49,7 @@ class IssueAddNavItem extends React.Component {
 
   render() {
     return (
-      <NavItem onClick={this.showModal}><Glyphicon glyph="plus" /> Create Issue
+      <NavItem onClick={this.showModal}><i className="fa fa-plus" /> Create Issue
         <Modal keyboard show={this.state.showing} onHide={this.hideModal}>
           <Modal.Header closeButton>
             <Modal.Title>Create Issue</Modal.Title>
@@ -59,12 +57,12 @@ class IssueAddNavItem extends React.Component {
           <Modal.Body>
             <Form name="issueAdd">
               <FormGroup>
-                <ControlLabel>Title</ControlLabel>
-                <FormControl name="title" autoFocus />
+                <Label>Title</Label>
+                <Input name="title" autoFocus />
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Owner</ControlLabel>
-                <FormControl name="owner" />
+                <Label>Owner</Label>
+                <Input name="owner" />
               </FormGroup>
             </Form>
           </Modal.Body>
@@ -81,8 +79,8 @@ class IssueAddNavItem extends React.Component {
 }
 
 IssueAddNavItem.propTypes = {
-  router: React.PropTypes.object,
-  showError: React.PropTypes.func.isRequired,
+  router: PropTypes.object,
+  showError: PropTypes.func.isRequired,
 };
 
 export default withRouter(IssueAddNavItem);

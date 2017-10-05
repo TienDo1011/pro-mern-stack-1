@@ -1,39 +1,45 @@
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   entry: {
-    app: './client/Client.jsx',
+    app: './client/Client.js',
     vendor: [
-      'react', 'react-dom', 'react-router', 'react-bootstrap', 'react-router-bootstrap',
-      'isomorphic-fetch', 'babel-polyfill', 'react-select',
+      'react', 'react-dom', 'react-router-dom', 'reactstrap', 'react-router-bootstrap',
+      'babel-polyfill', 'react-select',
     ],
   },
   output: {
-    path: './static',
+    path: path.resolve(__dirname, './static'),
     filename: 'app.bundle.js',
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'vendor.bundle.js',
+    }),
   ],
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.jsx$/,
+        test: /\.js$/,
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2015'],
+          presets: ['env', 'stage-2', 'react'],
         },
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
       },
     ],
   },
   devServer: {
     port: 8000,
     contentBase: 'static',
-    // proxy: {
-    //   '**': {
-    //     target: 'http://localhost:3001',
-    //   },
-    // },
     historyApiFallback: true,
   },
   devtool: 'source-map',

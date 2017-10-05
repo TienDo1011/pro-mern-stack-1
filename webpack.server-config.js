@@ -1,26 +1,17 @@
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   target: 'node',
   entry: ['./server/index.js', './node_modules/webpack/hot/poll?1000'],
   output: {
-    path: './dist',
+    path: path.resolve(__dirname, './dist'),
     filename: 'server.bundle.js',
     libraryTarget: 'commonjs',
   },
-  resolve: {
-    extensions: ['', '.js', '.jsx'],
-  },
   externals: [/^[a-z]/],
   module: {
-    loaders: [
-      {
-        test: /\.jsx$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'env'],
-        },
-      },
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -29,11 +20,18 @@ module.exports = {
           presets: ['env'],
         },
       },
+      {
+        test: /\.json$/,
+        exclude: /node_modules/,
+        loader: 'json-loader',
+        query: {
+          presets: ['env'],
+        },
+      },
     ],
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    'transform-regenerator',
   ],
   devtool: 'source-map',
 };

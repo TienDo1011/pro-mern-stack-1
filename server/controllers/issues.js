@@ -1,4 +1,4 @@
-import Issue from '../models/issue-schema';
+import Issue from '../models/Issue';
 import { ObjectId } from 'mongodb';
 import { validateIssue, cleanupIssue, convertIssue } from '../helper';
 
@@ -21,28 +21,28 @@ function getIssues(req, res) {
     let limit = req.query._limit ? parseInt(req.query._limit, 10) : 20;
     if (limit > 50) limit = 50;
 
-    const cursor = Issue.find(filter).sort({ _id: 1 })
-    .skip(offset)
-    .limit(limit);
-
     let totalCount;
-    cursor.count(false).then(result => {
-      totalCount = result;
-      return cursor.exec();
-    })
-    .then(issues => {
-      res.json({ metadata: { totalCount }, records: issues });
-    })
-    .catch(error => {
-      console.log(error);
-      res.status(500).json({ message: `Internal Server Error: ${error}` });
+    Issue.find(filter).count().then(num => {
+      totalCount = num;
     });
+    Issue.find(filter)
+      .skip(offset)
+      .limit(limit)
+      .exec()
+      .then(result => {
+        res.json({ metadata: { totalCount }, records: result });
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).json({ message: `Internal Server Error: ${error}` });
+      });
   } else {
     Issue.aggregate([
       { $match: filter },
       { $group: { _id: { owner: '$owner', status: '$status' }, count: { $sum: 1 } } },
-    ]).toArray()
+    ])
     .then(results => {
+      console.log('results', results);
       const stats = {};
       results.forEach(result => {
         if (!stats[result._id.owner]) stats[result._id.owner] = {};
@@ -89,8 +89,9 @@ function getIssue(req, res) {
     return;
   }
 
-  Issue.find({ _id: issueId }).limit(1)
+  Issue.findOne({ _id: issueId })
   .then(issue => {
+    console.log('issue', issue);
     if (!issue) res.status(404).json({ message: `No such issue: ${issueId}` });
     else res.json(issue);
   })

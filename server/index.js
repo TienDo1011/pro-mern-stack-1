@@ -1,20 +1,34 @@
+import SourceMapSupport from 'source-map-support';
+SourceMapSupport.install();
 import 'babel-polyfill';
 import http from 'http';
 import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 // import renderedPageRouter from './renderedPageRouter.jsx';
+import passport from 'passport';
+import flash from 'connect-flash';
+import './auth/passport-init';
 
 import './models/db';
-import index from './routes/index';
+import auth from './routes/auth';
 import api from './routes/api';
 
 const app = express();
 app.use(express.static('static'));
 app.use(bodyParser.json());
 app.use(session({ secret: 'h7e3f5s6', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
-app.use('/', index);
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
+app.use('/', auth);
 app.use('/api', api);
 
 // catch 404 and forward to error handler

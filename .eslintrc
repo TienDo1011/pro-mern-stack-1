@@ -1,7 +1,17 @@
 {
+  "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {
     "no-underscore-dangle": "off",
+    "react/no-did-mount-set-state": "off",
     "no-param-reassign": ["error", { "props": false }]
+  },
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "ecmaFeatures": {
+        "experimentalObjectRestSpread": true,
+        "jsx": true
+    },
+    "sourceType": "module"
   }
 }

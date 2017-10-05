@@ -1,6 +1,7 @@
 import React from 'react';
-import { Col, Row, FormGroup, FormControl, ControlLabel, InputGroup,
-  ButtonToolbar, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { Col, Row, FormGroup, Input, Label, InputGroup, InputGroupAddon,
+  ButtonToolbar, Button } from 'reactstrap';
 
 export default class IssueFilter extends React.Component {
   constructor(props) {
@@ -11,12 +12,6 @@ export default class IssueFilter extends React.Component {
       effort_lte: props.initFilter.effort_lte || '',
       changed: false,
     };
-    this.onChangeStatus = this.onChangeStatus.bind(this);
-    this.onChangeEffortGte = this.onChangeEffortGte.bind(this);
-    this.onChangeEffortLte = this.onChangeEffortLte.bind(this);
-    this.applyFilter = this.applyFilter.bind(this);
-    this.resetFilter = this.resetFilter.bind(this);
-    this.clearFilter = this.clearFilter.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
@@ -28,25 +23,25 @@ export default class IssueFilter extends React.Component {
     });
   }
 
-  onChangeStatus(e) {
+  onChangeStatus = (e) => {
     this.setState({ status: e.target.value, changed: true });
   }
 
-  onChangeEffortGte(e) {
+  onChangeEffortGte = (e) => {
     const effortString = e.target.value;
     if (effortString.match(/^\d*$/)) {
       this.setState({ effort_gte: e.target.value, changed: true });
     }
   }
 
-  onChangeEffortLte(e) {
+  onChangeEffortLte = (e) => {
     const effortString = e.target.value;
     if (effortString.match(/^\d*$/)) {
       this.setState({ effort_lte: e.target.value, changed: true });
     }
   }
 
-  applyFilter() {
+  applyFilter = () => {
     const newFilter = {};
     if (this.state.status) newFilter.status = this.state.status;
     if (this.state.effort_gte) newFilter.effort_gte = this.state.effort_gte;
@@ -54,11 +49,11 @@ export default class IssueFilter extends React.Component {
     this.props.setFilter(newFilter);
   }
 
-  clearFilter() {
+  clearFilter = () => {
     this.props.setFilter({});
   }
 
-  resetFilter() {
+  resetFilter = () => {
     this.setState({
       status: this.props.initFilter.status || '',
       effort_gte: this.props.initFilter.effort_gte || '',
@@ -72,9 +67,9 @@ export default class IssueFilter extends React.Component {
       <Row>
         <Col xs={6} sm={4} md={3} lg={2}>
           <FormGroup>
-            <ControlLabel>Status</ControlLabel>
-            <FormControl
-              componentClass="select" value={this.state.status}
+            <Label>Status</Label>
+            <Input
+              type="select" value={this.state.status}
               onChange={this.onChangeStatus}
             >
               <option value="">(Any)</option>
@@ -84,24 +79,24 @@ export default class IssueFilter extends React.Component {
               <option value="Fixed">Fixed</option>
               <option value="Verified">Verified</option>
               <option value="Closed">Closed</option>
-            </FormControl>
+            </Input>
           </FormGroup>
         </Col>
         <Col xs={6} sm={4} md={3} lg={2}>
           <FormGroup>
-            <ControlLabel>Effort</ControlLabel>
+            <Label>Effort</Label>
             <InputGroup>
-              <FormControl value={this.state.effort_gte} onChange={this.onChangeEffortGte} />
-              <InputGroup.Addon>-</InputGroup.Addon>
-              <FormControl value={this.state.effort_lte} onChange={this.onChangeEffortLte} />
+              <Input value={this.state.effort_gte} onChange={this.onChangeEffortGte} />
+              <InputGroupAddon>-</InputGroupAddon>
+              <Input value={this.state.effort_lte} onChange={this.onChangeEffortLte} />
             </InputGroup>
           </FormGroup>
         </Col>
         <Col xs={6} sm={4} md={3} lg={2}>
           <FormGroup>
-            <ControlLabel>&nbsp;</ControlLabel>
+            <Label>&nbsp;</Label>
             <ButtonToolbar>
-              <Button bsStyle="primary" onClick={this.applyFilter}>Apply</Button>
+              <Button color="primary" onClick={this.applyFilter}>Apply</Button>
               <Button onClick={this.resetFilter} disabled={!this.state.changed}>Reset</Button>
               <Button onClick={this.clearFilter}>Clear</Button>
             </ButtonToolbar>
@@ -113,6 +108,6 @@ export default class IssueFilter extends React.Component {
 }
 
 IssueFilter.propTypes = {
-  setFilter: React.PropTypes.func.isRequired,
-  initFilter: React.PropTypes.object.isRequired,
+  setFilter: PropTypes.func.isRequired,
+  initFilter: PropTypes.string.isRequired,
 };

@@ -1,14 +1,15 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, browserHistory } from 'react-router';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import routes from './src/Routes.jsx';
+import 'bootstrap/dist/css/bootstrap.css';
+import App from './components/App';
 
 const contentNode = document.getElementById('contents');
 ReactDOM.render(
-  <Router history={browserHistory} >
-      {routes}
+  <Router>
+    <App />
   </Router>
   , contentNode);
 

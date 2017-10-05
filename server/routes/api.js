@@ -1,12 +1,13 @@
+import _ from 'lodash';
 import express from 'express';
 const router = express.Router(); // eslint-disable-line new-cap
 import { getIssues, addIssue, getIssue, updateIssue, deleteIssue } from '../controllers/issues';
 
 router.all('/*', (req, res, next) => {
   if (req.method === 'DELETE' || req.method === 'POST' || req.method === 'PUT') {
-    if (!req.session || !req.session.user) {
-      res.status(403).send({
-        message: 'You are not authorized to perform the operation',
+    if (!req.isAuthenticated()) {
+      res.status(403).json({
+        message: 'You are not authrized to perform the operation',
       });
     } else {
       next();
@@ -28,8 +29,8 @@ router.delete('/issues/:id', deleteIssue);
 
 
 router.get('/users/me', (req, res) => {
-  if (req.session && req.session.user) {
-    res.json(req.session.user);
+  if (_.get(req, 'session.passport.user')) {
+    res.json(req.session.passport.user);
   } else {
     res.json({ signedIn: false, name: '' });
   }

@@ -1,5 +1,7 @@
 import React from 'react';
-import { NavItem, Modal, Button, NavDropdown, MenuItem } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { NavItem, Modal, ModalHeader, ModalBody,
+  ModalFooter, Button, NavDropdown, MenuItem } from 'reactstrap';
 
 export default class SigninNavItem extends React.Component {
   constructor(props) {
@@ -7,10 +9,6 @@ export default class SigninNavItem extends React.Component {
     this.state = {
       showing: false, disabled: true,
     };
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.signout = this.signout.bind(this);
-    this.signin = this.signin.bind(this);
   }
 
   componentDidMount() {
@@ -27,7 +25,7 @@ export default class SigninNavItem extends React.Component {
     });
   }
 
-  signin() {
+  signin = () => {
     this.hideModal();
     const auth2 = window.gapi.auth2.getAuthInstance();
     auth2.signIn().then(googleUser => {
@@ -54,7 +52,7 @@ export default class SigninNavItem extends React.Component {
     });
   }
 
-  signout() {
+  signout = () => {
     const auth2 = window.gapi.auth2.getAuthInstance();
     fetch('/signout', {
       method: 'POST',
@@ -69,7 +67,7 @@ export default class SigninNavItem extends React.Component {
     });
   }
 
-  showModal() {
+  showModal = () => {
     if (this.state.disabled) {
       this.props.showError('Missing Google Client ID or config file /static.config.js');
     } else {
@@ -77,7 +75,7 @@ export default class SigninNavItem extends React.Component {
     }
   }
 
-  hideModal() {
+  hideModal = () => {
     this.setState({ showing: false });
   }
 
@@ -92,17 +90,17 @@ export default class SigninNavItem extends React.Component {
     return (
       <NavItem onClick={this.showModal}>Sign in
         <Modal keyboard show={this.state.showing} onHide={this.hideModal} bsSize="sm">
-          <Modal.Header closeButton>
-            <Modal.Title>Sign in</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
+          <ModalHeader closeButton>
+            Sign in
+          </ModalHeader>
+          <ModalBody>
             <Button block disabled={this.state.disabled} onClick={this.signin}>
               <img src="/btn_google_signin_dark_normal_web.png" alt="Sign in" />
             </Button>
-          </Modal.Body>
-          <Modal.Footer>
+          </ModalBody>
+          <ModalFooter>
             <Button bsStyle="link" onClick={this.hideModal}>Cancel</Button>
-          </Modal.Footer>
+          </ModalFooter>
         </Modal>
       </NavItem>
     );
@@ -110,9 +108,9 @@ export default class SigninNavItem extends React.Component {
 }
 
 SigninNavItem.propTypes = {
-  user: React.PropTypes.object,
-  onSignin: React.PropTypes.func.isRequired,
-  onSignout: React.PropTypes.func.isRequired,
-  showError: React.PropTypes.func.isRequired,
-  showSuccess: React.PropTypes.func.isRequired,
+  user: PropTypes.object,
+  onSignin: PropTypes.func.isRequired,
+  onSignout: PropTypes.func.isRequired,
+  showError: PropTypes.func.isRequired,
+  showSuccess: PropTypes.func.isRequired,
 };

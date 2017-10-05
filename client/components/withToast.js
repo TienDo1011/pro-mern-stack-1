@@ -1,5 +1,5 @@
 import React from 'react';
-import Toast from './Toast.jsx';
+import Toast from './Toast';
 
 export default function withToast(OriginalComponent) {
   return class WithToast extends React.Component {

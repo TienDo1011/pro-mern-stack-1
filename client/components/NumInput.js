@@ -1,22 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class NumInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = { value: this.format(props.value) };
-    this.onBlur = this.onBlur.bind(this);
-    this.onChange = this.onChange.bind(this);
   }
 
   componentWillReceiveProps(newProps) {
     this.setState({ value: this.format(newProps.value) });
   }
 
-  onBlur(e) {
+  onBlur = (e) => {
     this.props.onChange(e, this.unformat(this.state.value));
   }
 
-  onChange(e) {
+  onChange = (e) => {
     if (e.target.value.match(/^\d*$/)) {
       this.setState({ value: e.target.value });
     }
@@ -42,6 +41,6 @@ export default class NumInput extends React.Component {
 }
 
 NumInput.propTypes = {
-  value: React.PropTypes.number,
-  onChange: React.PropTypes.func.isRequired,
+  value: PropTypes.number,
+  onChange: PropTypes.func.isRequired,
 };

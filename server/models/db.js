@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const dbURI = 'mongodb://localhost/issue-tracker';
+const dbURI = 'mongodb://localhost/issuetracker';
 mongoose.connect(dbURI);
 
 const gracefulShutdown = (msg, cb) => {

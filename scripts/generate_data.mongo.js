@@ -5,8 +5,9 @@ var db = new Mongo().getDB('issuetracker');
 var owners = ['Ravan','Eddie','Pieta','Parvati','Victor','Violet'];
 var statuses = ['New','Open','Assigned','Fixed','Verified','Closed'];
 
-var i;
-for (i=0; i<1000; i++) {
+const issues = [];
+
+for (let i=0; i<1000; i++) {
   var randomCreatedDate = new Date(
     (new Date()) - Math.floor(Math.random() * 60) * 1000*60*60*24);
   var randomCompletionDate = new Date(
@@ -20,5 +21,7 @@ for (i=0; i<1000; i++) {
     owner: randomOwner, status: randomStatus, effort: randomEffort,
   };
   issue.title = 'Lorem ipsum dolor sit amet, ' + i;
-  db.issues.insert(issue);
+  issues.push(issue);
 }
+
+db.issues.insert(issues);

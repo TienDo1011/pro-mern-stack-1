@@ -1,0 +1,5 @@
+[
+  { "_id": 1, "user": "barney", "password": "barney", "age": 36, "active": true },
+  { "_id": 2, "user": "fred", "password": "barney", "age": 40, "active": false },
+  { "_id": 3, "user": "pebbles", "password": "barney", "age": 1,  "active": true }
+]
