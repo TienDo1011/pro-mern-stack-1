@@ -22,14 +22,10 @@ class App extends React.Component {
   }
 
   render() {
-    // const childrenWithUser = React.Children.map(this.props.children, child =>
-    //   React.cloneElement(child, { user: this.state.user })
-    // );
     return (
       <div>
         <Header user={this.props.user} onSignin={this.onSignin} onSignout={this.onSignout} />
         <div className="container-fluid">
-          {/* {childrenWithUser} */}
           <Switch>
             <Route exact path="/issues" component={withRouter(IssueList)} />
             <Route path="/issues/:id" component={IssueEdit} />

@@ -108,25 +108,26 @@ class IssueEdit extends React.Component {
       );
     }
     return (
-      <Form horizontal onSubmit={this.onSubmit}>
-        <FormGroup>
-          <Col sm="3"><Label>ID</Label></Col>
-          <Col sm="9">
-            <Input plaintext="plaintext">{issue._id}</Input>
+      <Form onSubmit={this.onSubmit}>
+        <FormGroup row>
+          <Col sm={3}><Label>ID</Label></Col>
+          <Col sm={9}>
+            <Input readOnly plaintext="plaintext" value={issue._id} />
           </Col>
         </FormGroup>
-        <FormGroup>
-          <Col sm="3"><Label>Created</Label></Col>
-          <Col sm="9">
-            {/* <Input plaintext="plaintext">
-              {issue.created ? issue.created.toDateString() : ''}
-            </Input> */}
+        <FormGroup row>
+          <Col sm={3}><Label>Created</Label></Col>
+          <Col sm={9}>
+            <Input
+              readOnly plaintext="plaintext"
+              value={issue.created ? issue.created.toDateString() : ''}
+            />
           </Col>
         </FormGroup>
-        <FormGroup>
-          <Col sm="3"><Label>Status</Label></Col>
-          <Col sm="9">
-            {/* <Input
+        <FormGroup row>
+          <Col sm={3}><Label>Status</Label></Col>
+          <Col sm={9}>
+            <Input
               type="select" name="status" value={issue.status}
               onChange={this.onChange}
             >
@@ -136,55 +137,57 @@ class IssueEdit extends React.Component {
               <option value="Fixed">Fixed</option>
               <option value="Verified">Verified</option>
               <option value="Closed">Closed</option>
-            </Input> */}
+            </Input>
           </Col>
         </FormGroup>
-        <FormGroup>
-          <Col sm="3"><Label>Owner</Label></Col>
-          <Col sm="9">
-            {/* <Input name="owner" value={issue.owner} onChange={this.onChange} /> */}
+        <FormGroup row>
+          <Col sm={3}><Label>Owner</Label></Col>
+          <Col sm={9}>
+            <Input name="owner" value={issue.owner} onChange={this.onChange} />
           </Col>
         </FormGroup>
-        <FormGroup>
-          <Col sm="3"><Label>Effort</Label></Col>
-          <Col sm="9">
+        <FormGroup row>
+          <Col sm={3}><Label>Effort</Label></Col>
+          <Col sm={9}>
             <NumInput
               name="effort"
               value={issue.effort} onChange={this.onChange}
+              className="form-control"
             />
           </Col>
         </FormGroup>
-        <FormGroup validationState={this.state.invalidFields.completionDate ? 'error' : null}>
-          <Col sm="3"><Label>Completion Date</Label></Col>
-          <Col sm="9">
+        <FormGroup row valid={`${!this.state.invalidFields.completionDate}`}>
+          <Col sm={3}><Label>Completion Date</Label></Col>
+          <Col sm={9}>
             <DateInput
               name="completionDate"
               value={issue.completionDate} onChange={this.onChange}
               onValidityChange={this.onValidityChange}
+              className="form-control"
             />
             <FormFeedback />
           </Col>
         </FormGroup>
-        <FormGroup>
-          <Col sm="3"><Label>Title</Label></Col>
-          <Col sm="9">
-            {/* <Input name="title" value={issue.title} onChange={this.onChange} /> */}
+        <FormGroup row>
+          <Col sm={3}><Label>Title</Label></Col>
+          <Col sm={9}>
+            <Input name="title" value={issue.title} onChange={this.onChange} />
           </Col>
         </FormGroup>
-        <FormGroup>
-          <Col smOffset="3" sm="6">
+        <FormGroup row>
+          <Col sm={{ offset: 3 }} sm={6}>
             <ButtonToolbar>
-              <Button bsStyle="primary" type="submit" disabled={!this.props.user.signedIn}>
+              <Button color="primary" type="submit" disabled={!this.props.user.signedIn}>
                 Submit
               </Button>
               <LinkContainer to="/issues">
-                <Button bsStyle="link">Back</Button>
+                <Button color="link">Back</Button>
               </LinkContainer>
             </ButtonToolbar>
           </Col>
         </FormGroup>
         <FormGroup>
-          <Col smOffset="3" sm="9">{validationMessage}</Col>
+          <Col sm={{ offset: 3 }} sm={9}>{validationMessage}</Col>
         </FormGroup>
       </Form>
     );

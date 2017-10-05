@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar, NavbarBrand, Nav, NavItem, Col } from 'reactstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import Select from 'react-select';
 
 import IssueAddNavItem from './IssueAddNavItem';
@@ -40,13 +39,17 @@ const Header = (props) => {
     <Navbar className="fluid">
       <Col sm="5">
         <NavbarBrand>Issue Tracker</NavbarBrand>
-        <Nav>
-          <LinkContainer to="/issues">
-            <NavItem>Issues</NavItem>
-          </LinkContainer>
-          <LinkContainer to="/reports">
-            <NavItem>Reports</NavItem>
-          </LinkContainer>
+        <Nav style={{ display: 'inline-flex' }}>
+          <NavItem>
+            <NavLink to="/issues">
+                Issues
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/reports">
+                Reports
+            </NavLink>
+          </NavItem>
         </Nav>
       </Col>
       <Col sm="4">

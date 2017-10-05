@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel, Table } from 'reactstrap';
+import { Table } from 'reactstrap';
 
 import IssueFilter from './IssueFilter';
 import withToast from './withToast';
@@ -73,9 +73,7 @@ class IssueReport extends React.Component {
   render() {
     return (
       <div>
-        <Panel collapsible header="Filter">
-          <IssueFilter setFilter={this.setFilter} initFilter={this.props.location.search} />
-        </Panel>
+        <IssueFilter setFilter={this.setFilter} initFilter={this.props.location.search} />
         <Table bordered condensed hover responsive>
           <thead>
             <tr>
