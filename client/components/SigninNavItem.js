@@ -11,47 +11,6 @@ export default class SigninNavItem extends React.Component {
     };
   }
 
-  componentDidMount() {
-    window.gapi.load('auth2', () => {
-      if (!window.gapi.auth2.getAuthInstance()) {
-        if (!window.config || !window.config.googleClientId) {
-          this.props.showError('Missing Google Client ID or config file /static.config.js');
-        } else {
-          window.gapi.auth2.init({ client_id: window.config.googleClientId }).then(() => {
-            this.setState({ disabled: false });
-          });
-        }
-      }
-    });
-  }
-
-  signin = () => {
-    this.hideModal();
-    const auth2 = window.gapi.auth2.getAuthInstance();
-    auth2.signIn().then(googleUser => {
-      fetch('/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id_token: googleUser.getAuthResponse().id_token }),
-      }).then(response => {
-        if (response.ok) {
-          response.json().then(user => {
-            this.props.onSignin(user.name);
-          });
-        } else {
-          response.json().then(error => {
-            this.props.showError(`App login failed: ${error}`);
-          });
-        }
-      })
-      .catch(err => {
-        this.props.showError(`Error posting login to app: ${err}`);
-      });
-    }, error => {
-      this.props.showError(`Error authenticating with Google: ${error}`);
-    });
-  }
-
   signout = () => {
     const auth2 = window.gapi.auth2.getAuthInstance();
     fetch('/signout', {
@@ -68,11 +27,7 @@ export default class SigninNavItem extends React.Component {
   }
 
   showModal = () => {
-    if (this.state.disabled) {
-      this.props.showError('Missing Google Client ID or config file /static.config.js');
-    } else {
-      this.setState({ showing: true });
-    }
+    this.setState({ showing: true });
   }
 
   hideModal = () => {
@@ -89,17 +44,17 @@ export default class SigninNavItem extends React.Component {
     }
     return (
       <NavItem onClick={this.showModal}>Sign in
-        <Modal keyboard show={this.state.showing} onHide={this.hideModal} bsSize="sm">
-          <ModalHeader closeButton>
+        <Modal keyboard isOpen={this.state.showing} autoFocus={false}>
+          <ModalHeader>
             Sign in
           </ModalHeader>
           <ModalBody>
-            <Button block disabled={this.state.disabled} onClick={this.signin}>
-              <img src="/btn_google_signin_dark_normal_web.png" alt="Sign in" />
+            <Button block disabled={this.state.disabled}>
+              <a href="http://localhost:3001/auth/google"><img src="/btn_google_signin_dark_normal_web.png" alt="Sign in" /></a>
             </Button>
           </ModalBody>
           <ModalFooter>
-            <Button bsStyle="link" onClick={this.hideModal}>Cancel</Button>
+            <Button color="link" onClick={this.hideModal}>Cancel</Button>
           </ModalFooter>
         </Modal>
       </NavItem>

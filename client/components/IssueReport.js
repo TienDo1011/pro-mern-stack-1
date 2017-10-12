@@ -56,7 +56,7 @@ class IssueReport extends React.Component {
   }
 
   setFilter = (query) => {
-    this.props.router.push({ pathname: this.props.location.pathname, query });
+    this.props.history.push(`${this.props.location.pathname}?${queryString.stringify(query)}`);
   }
 
   loadData = async () => {
@@ -94,6 +94,7 @@ class IssueReport extends React.Component {
 
 IssueReport.propTypes = {
   location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   router: PropTypes.object,
   showError: PropTypes.func.isRequired,
 };

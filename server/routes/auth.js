@@ -10,7 +10,7 @@ router.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
 router.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
-  res.json(req.user);
+  res.redirect('http://localhost:8000');
 });
 
 router.post('/signout', (req, res) => {
