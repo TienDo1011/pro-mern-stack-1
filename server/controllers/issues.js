@@ -112,7 +112,7 @@ function updateIssue(req, res) {
 
   const issue = req.body;
   delete issue._id;
-
+  console.log('issue===>', issue);
   const err = validateIssue(issue);
   if (err) {
     res.status(422).json({ message: `Invalid request: ${err}` });

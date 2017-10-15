@@ -56,11 +56,9 @@ class IssueEdit extends React.Component {
     }
 
     try {
-      const response = (await api().put(`/api/issues/${this.props.match.params.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.state.issue),
-      }));
+      const response = (await api()
+        .put(`/api/issues/${this.props.match.params.id}`,
+        this.state.issue));
       if (response.status === 200) {
         const updatedIssue = response.data;
         updatedIssue.created = new Date(updatedIssue.created);

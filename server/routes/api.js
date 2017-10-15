@@ -29,6 +29,7 @@ router.delete('/issues/:id', deleteIssue);
 
 
 router.get('/users/me', (req, res) => {
+  console.log('=====>', req.isAuthenticated());
   if (_.get(req, 'session.passport.user')) {
     res.json(req.session.passport.user);
   } else {

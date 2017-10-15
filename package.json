@@ -4,17 +4,11 @@
   "description": "Pro MERN Stack",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon dist/server.bundle.js",
-    "start:server": "webpack --config webpack.server-config.js --watch & nodemon dist/server.bundle.js",
-    "compile-server": "webpack --config webpack.server-config.js",
+    "start": "npm run watch-client & npm run watch-server & npm run start-server",
+    "start-server": "nodemon dist/server.bundle.js",
     "watch-server": "webpack --config webpack.server-config.js --watch",
-    "start-hook": "nodemon -e js,jsx -w server,src server/start_hook.js",
-    "compile": "webpack",
-    "watch": "webpack-dev-server --hot --inline",
-    "dev-all": "npm run watch & npm run watch-server & npm start",
-    "dev-all-hook": "npm run watch & npm run start-hook",
-    "lint": "eslint --ext js,jsx src server webpack.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch-client": "webpack --watch",
+    "lint": "eslint --ext js,jsx src server webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -60,6 +54,7 @@
     "react": "^16.0.0",
     "react-addons-transition-group": "^15.6.2",
     "react-dom": "^16.0.0",
+    "react-router-bootstrap": "^0.24.4",
     "react-router-dom": "^4.2.2",
     "react-select": "^1.0.0-rc.10",
     "react-transition-group": "1.2.0",

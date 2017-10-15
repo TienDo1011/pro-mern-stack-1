@@ -1,5 +1,6 @@
 import express from 'express';
 import passport from 'passport';
+import path from 'path';
 const router = express.Router(); // eslint-disable-line new-cap
 
 router.post('/signin', passport.authenticate('local'), (req, res) => {
@@ -10,7 +11,7 @@ router.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
 router.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
-  res.redirect('http://localhost:8000');
+  res.redirect('/');
 });
 
 router.post('/signout', (req, res) => {

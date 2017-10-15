@@ -9,10 +9,15 @@ export default function withUser(OriginalComponent) {
     }
 
     async componentDidMount() {
-      const user = (await api().get('/api/users/me')).data;
-      this.setState({
-        user,
-      });
+      const userData = (await api().get('/api/users/me')).data;
+      if (userData.displayName) {
+        this.setState({
+          user: {
+            name: userData.displayName,
+            signedIn: true,
+          },
+        });
+      }
     }
 
     render() {

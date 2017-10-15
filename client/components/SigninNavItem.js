@@ -1,29 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavItem, Modal, ModalHeader, ModalBody,
-  ModalFooter, Button, NavDropdown, MenuItem } from 'reactstrap';
+  ModalFooter, Button, NavDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
+import api from '../api/api';
 
 export default class SigninNavItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showing: false, disabled: true,
+      showing: false, disabled: true, dropdownOpen: false,
     };
   }
 
-  signout = () => {
-    const auth2 = window.gapi.auth2.getAuthInstance();
-    fetch('/signout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-    }).then(response => {
-      if (response.ok) {
-        auth2.signOut().then(() => {
-          this.props.showSuccess('Successfully signed out.');
-          this.props.onSignout();
-        });
-      }
+  toggle = () => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen,
     });
+  }
+
+  signout = async () => {
+    try {
+      const response = (await api().post('/signout'));
+      if (response.status === 200) {
+        this.props.showSuccess('Successfully signed out.');
+        this.props.onSignout();
+      } else {
+        this.props.showError('sign out failed');
+      }
+    } catch (err) {
+      this.props.showError('Network error');
+    }
   }
 
   showModal = () => {
@@ -37,13 +44,20 @@ export default class SigninNavItem extends React.Component {
   render() {
     if (this.props.user.signedIn) {
       return (
-        <NavDropdown title={this.props.user.name} id="user-dropdown">
-          <MenuItem onClick={this.signout}>Sign out</MenuItem>
+        <NavDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+          <DropdownToggle nav caret>
+            {this.props.user.name}
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem onClick={this.signout}>Sign out</DropdownItem>
+          </DropdownMenu>
         </NavDropdown>
       );
     }
     return (
-      <NavItem onClick={this.showModal}>Sign in
+      <div>
+        <NavItem onClick={this.showModal}>Sign in
+        </NavItem>
         <Modal keyboard isOpen={this.state.showing} autoFocus={false}>
           <ModalHeader>
             Sign in
@@ -57,7 +71,7 @@ export default class SigninNavItem extends React.Component {
             <Button color="link" onClick={this.hideModal}>Cancel</Button>
           </ModalFooter>
         </Modal>
-      </NavItem>
+      </div>
     );
   }
 }

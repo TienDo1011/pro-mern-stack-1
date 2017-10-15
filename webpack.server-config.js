@@ -2,8 +2,13 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-  target: 'node',
   entry: ['./server/index.js', './node_modules/webpack/hot/poll?1000'],
+  context: __dirname,
+  node: {
+    __filename: true,
+    __dirname: true,
+  },
+  target: 'node',
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'server.bundle.js',

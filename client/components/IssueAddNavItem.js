@@ -49,31 +49,31 @@ class IssueAddNavItem extends React.Component {
 
   render() {
     return (
-      <NavItem onClick={this.showModal}><i className="fa fa-plus" /> Create Issue
-        <Modal keyboard show={this.state.showing} onHide={this.hideModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Create Issue</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form name="issueAdd">
-              <FormGroup>
-                <Label>Title</Label>
-                <Input name="title" autoFocus />
-              </FormGroup>
-              <FormGroup>
-                <Label>Owner</Label>
-                <Input name="owner" />
-              </FormGroup>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <ButtonToolbar>
-              <Button type="button" bsStyle="primary" onClick={this.submit}>Submit</Button>
-              <Button bsStyle="link" onClick={this.hideModal}>Cancel</Button>
-            </ButtonToolbar>
-          </Modal.Footer>
-        </Modal>
+      <NavItem onClick={() => console.log('click!!!') }><i className="fa fa-plus" /> Create Issue
       </NavItem>
+      // <Modal keyboard show={this.state.showing} onHide={this.hideModal}>
+      //   <Modal.Header closeButton>
+      //     <Modal.Title>Create Issue</Modal.Title>
+      //   </Modal.Header>
+      //   <Modal.Body>
+      //     <Form name="issueAdd">
+      //       <FormGroup>
+      //         <Label>Title</Label>
+      //         <Input name="title" autoFocus />
+      //       </FormGroup>
+      //       <FormGroup>
+      //         <Label>Owner</Label>
+      //         <Input name="owner" />
+      //       </FormGroup>
+      //     </Form>
+      //   </Modal.Body>
+      //   <Modal.Footer>
+      //     <ButtonToolbar>
+      //       <Button type="button" bsStyle="primary" onClick={this.submit}>Submit</Button>
+      //       <Button bsStyle="link" onClick={this.hideModal}>Cancel</Button>
+      //     </ButtonToolbar>
+      //   </Modal.Footer>
+      // </Modal>
     );
   }
 }

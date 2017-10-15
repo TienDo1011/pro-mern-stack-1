@@ -5,6 +5,7 @@ import http from 'http';
 import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
+import path from 'path';
 // import renderedPageRouter from './renderedPageRouter.jsx';
 import passport from 'passport';
 import flash from 'connect-flash';
@@ -15,7 +16,8 @@ import auth from './routes/auth';
 import api from './routes/api';
 
 const app = express();
-app.use(express.static('static'));
+console.log('====>', __dirname, process.cwd());
+app.use(express.static(path.resolve(__dirname, './../static/')));
 app.use(bodyParser.json());
 app.use(session({ secret: 'h7e3f5s6', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
@@ -30,6 +32,10 @@ app.use((req, res, next) => {
 
 app.use('/', auth);
 app.use('/api', api);
+
+app.get('/*', (req, res) => {
+  res.sendFile('/index.html');
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

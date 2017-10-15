@@ -10,9 +10,27 @@ import Header from './Header';
 
 import withUser from './withUser';
 
+import api from '../api/api';
+
 const NoMatch = () => <p>No match found</p>;
 
 class App extends React.Component {
+  state = {
+    user: {},
+  }
+
+  async componentWillMount() {
+    const userData = (await api().get('/api/users/me')).data;
+    if (userData.displayName) {
+      this.setState({
+        user: {
+          name: userData.displayName,
+          signedIn: true,
+        },
+      });
+    }
+  }
+
   onSignin = (name) => {
     this.setState({ user: { signedIn: true, name } });
   }
@@ -24,7 +42,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header user={this.props.user} onSignin={this.onSignin} onSignout={this.onSignout} />
+        <Header user={this.state.user} onSignin={this.onSignin} onSignout={this.onSignout} />
         <div className="container-fluid">
           <Switch>
             <Route exact path="/issues" component={withRouter(IssueList)} />
