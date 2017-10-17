@@ -8,7 +8,8 @@
     "start-server": "nodemon dist/server.bundle.js",
     "watch-server": "webpack --config webpack.server-config.js --watch",
     "watch-client": "webpack --watch",
-    "lint": "eslint --ext js,jsx src server webpack.config.js"
+    "lint": "eslint --ext js,jsx src server webpack.config.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -48,6 +49,7 @@
     "mongoose": "^4.11.12",
     "passport": "^0.4.0",
     "passport-google-oauth": "^1.0.0",
+    "passport-json": "^1.2.0",
     "passport-local": "^1.0.0",
     "prop-types": "^15.6.0",
     "query-string": "^5.0.0",
@@ -77,8 +79,10 @@
     "eslint-plugin-import": "^1.14.0",
     "eslint-plugin-jsx-a11y": "^1.5.5",
     "eslint-plugin-react": "^5.2.2",
+    "jest": "^21.2.1",
     "nodemon": "^1.12.1",
     "style-loader": "^0.19.0",
+    "supertest": "^3.0.0",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"
   }

@@ -3,7 +3,7 @@ import passport from 'passport';
 import path from 'path';
 const router = express.Router(); // eslint-disable-line new-cap
 
-router.post('/signin', passport.authenticate('local'), (req, res) => {
+router.post('/signin', passport.authenticate('json'), (req, res) => {
   res.json(req.user);
 });
 
