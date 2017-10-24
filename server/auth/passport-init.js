@@ -1,18 +1,19 @@
-import _ from 'lodash';
 import passport from 'passport';
 import Strategy from 'passport-json';
+import bcrypt from 'bcrypt';
 import { OAuth2Strategy } from 'passport-google-oauth';
-import users from './users.json';
+import User from '../models/User';
 
 import config from '../config';
 
 passport.use(
-  new Strategy((username, password, done) => {
-    const user = _.find(users, { user: username, password });
-    if (!user) {
+  new Strategy(async (username, password, done) => {
+    const user = await User.findOne({ username });
+    const res = await bcrypt.compare(password, user.password);
+    if (!res) {
       return done(null, false);
     }
-    return done(null, user);
+    return done(null, { username, password });
   }),
 );
 
@@ -23,9 +24,7 @@ passport.use(
       clientSecret: config.google.clientSecret,
       callbackURL: config.google.callbackURL,
     },
-    (accessToken, refreshToken, profile, done) => {
-      return done(null, profile);
-    },
+    (accessToken, refreshToken, profile, done) => done(null, profile),
   ),
 );
 

@@ -27,12 +27,11 @@ describe('access data without login', () => {
 });
 
 describe('Access protected data after login', () => {
-  test('login', async () => {
-    await user1.post('/signin').send({
-      username: 'barney',
-      password: 'barney',
-    });
-  });
+  test('login', () => user1.post('/signin').send({
+    username: 'barney',
+    password: 'barney',
+  })
+  );
 
   test('is signed in', async () => {
     const response = await user1.get('/api/users/me');

@@ -101,7 +101,7 @@ export default class SigninNavItem extends React.Component {
               <Col xs="6">
                 <Form>
                   <fieldset>
-                    <legend>Login</legend>
+                    <legend>Sign in</legend>
                     <FormGroup row>
                       <Label for="email" sm={2}>
                         Email
@@ -132,7 +132,7 @@ export default class SigninNavItem extends React.Component {
                         />
                       </Col>
                     </FormGroup>
-                    <Button onClick={this.login}>Login</Button>
+                    <Button onClick={this.login}>Sign in</Button>
                   </fieldset>
                 </Form>
               </Col>

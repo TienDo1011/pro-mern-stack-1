@@ -6,6 +6,7 @@ import Select from 'react-select';
 
 import IssueAddNavItem from './IssueAddNavItem';
 import SigninNavItem from './SigninNavItem';
+import SignupNavItem from './SignupNavItem';
 
 import withToast from './withToast.js';
 
@@ -63,6 +64,10 @@ const Header = (props) => {
       <Col sm="3">
         <Nav className="pull-right">
           {props.user.signedIn ? <IssueAddNavItem showError={props.showError} /> : null}
+          <SignupNavItem
+            user={props.user} onSignin={props.onSignin} onSignout={props.onSignout}
+            showError={props.showError} showSuccess={props.showSuccess}
+          />
           <SigninNavItem
             user={props.user} onSignin={props.onSignin} onSignout={props.onSignout}
             showError={props.showError} showSuccess={props.showSuccess}
